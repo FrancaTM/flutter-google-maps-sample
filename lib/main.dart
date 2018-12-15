@@ -8,8 +8,24 @@ class MyApp extends StatelessWidget {
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
 
+  MapType _currentMapType = MapType.normal;
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  void _onMapTypeButtonPressed() {
+    if (_currentMapType == MapType.normal) {
+      mapController.updateMapOptions(
+        GoogleMapOptions(mapType: MapType.satellite),
+      );
+      _currentMapType = MapType.satellite;
+    } else {
+      mapController.updateMapOptions(
+        GoogleMapOptions(mapType: MapType.normal),
+      );
+      _currentMapType = MapType.normal;
+    }
   }
 
   @override
@@ -36,7 +52,7 @@ class MyApp extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topRight,
                 child: FloatingActionButton(
-                  onPressed: () => print('button pressed'),
+                  onPressed: _onMapTypeButtonPressed,
                   materialTapTargetSize: MaterialTapTargetSize.padded,
                   backgroundColor: Colors.green,
                   child: const Icon(
